@@ -25,17 +25,23 @@
 						</div>
 						<div class="row justify-content-center" style="padding-top:10px;">
 							<h6 class="ms-3">내가 감사하게 여기는 것들</h6>
-							<p class="ms-5">1. {{ today_diary.thanks_1 }}</p>
-							<p class="ms-5">2. {{ today_diary.thanks_2 }}</p>
-							<p class="ms-5">3. {{ today_diary.thanks_3 }}</p>
+							<ol>
+								{% for thanks in thanks_list %}
+								<p><li class="ms-5">{{ i }} {{ thanks }}</li></p>
+								{% endfor %}
+							</ol>
 							<h6 class="ms-3">오늘을 기분 좋게 만드는 것은?</h6>
-							<p class="ms-5">1.</p>
-							<p class="ms-5">2.</p>
-							<p class="ms-5">3.</p>
+							<ol>
+								{% for feelgood in feelgood_list %}
+								<p><li class="ms-5">{{ i }} {{ feelgood }}</li></p>
+								{% endfor %}
+							</ol>
 							<h6 class="ms-3">오늘의 다짐</h6>
-							<p class="ms-5">1.</p>
-							<p class="ms-5">2.</p>
-							<p class="ms-5">3.</p>
+							<ol>
+								{% for promise in promise_list %}
+								<p><li class="ms-5">{{ i }} {{ promise }}</li></p>
+								{% endfor %}
+							</ol>
 						</div>
 					</div>
 					<div class="col" style="padding-top:10px;">
@@ -44,13 +50,17 @@
 						</div>
 						<div class="row justify-content-center" style="padding-top:10px;">
 							<h6 class="ms-3">오늘 있었던 굉장한 일 3가지</h6>
-							<p class="ms-5">1. {{ today_diary.done_good_1 }}</p>
-							<p class="ms-5">2. {{ today_diary.done_good_2 }}</p>
-							<p class="ms-5">3. {{ today_diary.done_good_3 }}</p>
+							<ol>
+								{% for donegood in donegood_list %}
+								<p><li class="ms-5">{{ i }} {{ donegood }}</li></p>
+								{% endfor %}
+							</ol>
 							<h6 class="ms-3">오늘을 어떻게 더 좋은 날로 만들었나?</h6>
-							<p class="ms-5">1.</p>
-							<p class="ms-5">2.</p>
-							<p class="ms-5">3.</p>
+							<ol>
+								{% for makegood in makegood_list %}
+								<p><li class="ms-5">{{ i }} {{ makegood }}</li></p>
+								{% endfor %}
+							</ol>
 						</div>
 					</div>
 				</div>

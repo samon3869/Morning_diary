@@ -4,12 +4,11 @@ from django.db import models
 
 class Diary(models.Model):
     # 감사일기3, 잘한일기3, 마지막 수정일
-    thanks_1 = models.TextField()
-    thanks_2 = models.TextField()
-    thanks_3 = models.TextField()
-    done_good_1 = models.TextField()
-    done_good_2 = models.TextField()
-    done_good_3 = models.TextField()
+    thanks = models.TextField()
+    feelgood = models.TextField()
+    promise = models.TextField()
+    donegood = models.TextField()
+    makegood = models.TextField()
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_modified = models.DateTimeField(auto_now=True)
     
