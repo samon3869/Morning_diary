@@ -1,6 +1,6 @@
 import datetime
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Diary
 from .forms import DiaryForm
 
@@ -8,8 +8,24 @@ def index(request):
     return render(request, 'diary/index.html')
 
 def today_diary_create(request):
-    diary_form = DiaryForm()
-    return render(request, 'diary/diary_form.html', {'form': diary_form})
+    if request.method == 'POST':
+        thanks = request.POST['thanks']
+        feelgood = request.POST['feelgood']
+        promise = request.POST['promise']
+        donegood = request.POST['donegood']
+        makegood = request.POST['makegood']
+        new_diary = Diary(
+            thanks = thanks,
+            feelgood = feelgood,
+            promise = promise,
+            donegood = donegood,
+            makegood =makegood,
+        )
+        new_diary.save()
+        return redirect('today-diary', username='keon')
+    else:
+        diary_form = DiaryForm()
+        return render(request, 'diary/diary_form.html', {'form': diary_form})
 
 def today_dairy(request, username):
     today = datetime.datetime.now()
