@@ -1,8 +1,8 @@
 from django import forms
+from .models import Diary
 
-class DiaryForm(forms.Form):
-    thanks = forms.CharField(label="감사", widget=forms.Textarea)
-    feelgood = forms.CharField(label="기분좋게", widget=forms.Textarea)
-    promise = forms.CharField(label="다짐", widget=forms.Textarea)
-    donegood = forms.CharField(label="잘한일", widget=forms.Textarea)
-    makegood = forms.CharField(label="좋게만든일", widget=forms.Textarea)
+class DiaryForm(forms.ModelForm):
+
+    class Meta:
+        model = Diary
+        exclude = ['dt_created', 'dt_modified']

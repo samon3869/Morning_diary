@@ -9,19 +9,8 @@ def index(request):
 
 def today_diary_create(request):
     if request.method == 'POST':
-        thanks = request.POST['thanks']
-        feelgood = request.POST['feelgood']
-        promise = request.POST['promise']
-        donegood = request.POST['donegood']
-        makegood = request.POST['makegood']
-        new_diary = Diary(
-            thanks = thanks,
-            feelgood = feelgood,
-            promise = promise,
-            donegood = donegood,
-            makegood =makegood,
-        )
-        new_diary.save()
+        diary_form = DiaryForm(request.POST)
+        diary_form.save()
         return redirect('today-diary', username='keon')
     else:
         diary_form = DiaryForm()
