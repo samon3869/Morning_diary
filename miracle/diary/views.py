@@ -30,7 +30,7 @@ def today_diary_create(request):
 def today_dairy(request, username):
     today = datetime.datetime.now()
     today_humandate = today.strftime("%Y-%m-%d")
-    today_diary = Diary.objects.filter(dt_created__date=today_humandate)
+    today_diary = Diary.objects.filter(dt_created__date=today_humandate).order_by('-dt_created',)
     if today_diary:
         context = {
             "username": username,
