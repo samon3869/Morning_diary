@@ -2,9 +2,14 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Diary
+from .forms import DiaryForm
 
 def index(request):
     return render(request, 'diary/index.html')
+
+def today_diary_create(request):
+    diary_form = DiaryForm()
+    return render(request, 'diary/diary_form.html', {'form': diary_form})
 
 def today_dairy(request, username):
     today = datetime.datetime.now()
