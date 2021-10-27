@@ -1,6 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUSer
 
 # Create your models here.
+
+class User(AbstractUser):
+    pass
+
 
 class Diary(models.Model):
     # 감사일기3, 잘한일기3, 마지막 수정일
