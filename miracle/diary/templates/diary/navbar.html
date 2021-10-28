@@ -5,16 +5,16 @@
   </button>
   <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
-      {% if user.is_authenticated %}
+      {% if not user.is_authenticated %}
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">로그인</a>
+      <a class="nav-link px-3" href="{% url 'account_login' %}">로그인</a>
     </div>
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">회원가입</a>
+      <a class="nav-link px-3" href="{% url 'account_signup' %}">회원가입</a>
     </div>
       {% else %}
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">로그아웃</a>
+      <a class="nav-link px-3" href="{% url 'account_logout' %}">로그아웃</a>
     </div>
       {% endif %}
   </div>
