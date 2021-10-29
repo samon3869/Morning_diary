@@ -3,7 +3,14 @@
 {% block main_area %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-		<h1 class="h2">This is Index Page</h1>
+		<h1 class="h2">
+			안녕하세요. 
+			{% if user.is_authenticated %}
+				{{ user }}님.
+			{% else %}
+				로그인해주세요.
+			{% endif %}
+		</h1>
 	</div>
 </main>
 {% endblock main_area %}
