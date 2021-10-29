@@ -5,3 +5,4 @@ from .models import Diary, User
 
 admin.site.register(Diary)
 admin.site.register(User, UserAdmin)
+UserAdmin.fieldsets += (("Custom fields", {"fields": ("nickname",)}),)
