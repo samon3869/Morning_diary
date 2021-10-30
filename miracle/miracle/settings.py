@@ -141,7 +141,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_FORM_CLASS = "diary.forms.SignupForm"
-ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True # maintaining the password entered even if signup process is failed due to validator
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True # maintaining the password entered even if signup process is failed due to validator.
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True # if this option is True, the email authenticaiton process become simplified.
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "account_email_confirmation_done"
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "account_email_confirmation_done"
 
 # Email settings
 
