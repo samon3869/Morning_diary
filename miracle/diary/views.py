@@ -1,6 +1,8 @@
 import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from allauth.account.views import PasswordChangeView
 from .models import Diary
 from .forms import DiaryForm
 
@@ -36,4 +38,8 @@ def today_dairy(request, username):
         }
 
     return render(request, 'diary/today_diary.html', context=context)
-# Create your views here.
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    def get_success_url(self):
+        return reverse('index')
