@@ -5,7 +5,7 @@ class DiaryForm(forms.ModelForm):
 
     class Meta:
         model = Diary
-        exclude = ['dt_created', 'dt_modified']
+        exclude = ['dt_created', 'dt_modified', 'author']
 
 class SignupForm(forms.ModelForm):
 

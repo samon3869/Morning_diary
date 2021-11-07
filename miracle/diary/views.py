@@ -12,8 +12,9 @@ def index(request):
 def today_diary_create(request):
     if request.method == 'POST':
         diary_form = DiaryForm(request.POST)
+        diary_form.instance.author = request.user
         diary_form.save()
-        return redirect('today-diary', username='keon')
+        return redirect('today-diary', username=request.user.username)
     else:
         diary_form = DiaryForm()
         return render(request, 'diary/diary_form.html', {'form': diary_form})
@@ -21,16 +22,17 @@ def today_diary_create(request):
 def today_dairy(request, username):
     today = datetime.datetime.now()
     today_humandate = today.strftime("%Y-%m-%d")
-    today_diary = Diary.objects.filter(dt_created__date=today_humandate).order_by('-dt_created',)
+    today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate).order_by('-dt_created',)
     if today_diary:
+        today_diary=today_diary[0]
         context = {
             "username": username,
-            "today_diary": today_diary[0],
-            "thanks_list": today_diary[0].thanks.split(", "),
-            "feelgood_list": today_diary[0].feelgood.split(", "),
-            "promise_list": today_diary[0].promise.split(", "),
-            "donegood_list": today_diary[0].donegood.split(", "),
-            "makegood_list": today_diary[0].makegood.split(", ")
+            "today_diary": today_diary,
+            "thanks_list": today_diary.thanks.split(", "),
+            "feelgood_list": today_diary.feelgood.split(", "),
+            "promise_list": today_diary.promise.split(", "),
+            "donegood_list": today_diary.donegood.split(", "),
+            "makegood_list": today_diary.makegood.split(", ")
         }
     else:
         context = {
