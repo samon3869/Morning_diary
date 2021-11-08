@@ -9,6 +9,13 @@ from .forms import DiaryForm
 def index(request):
     return render(request, 'diary/index.html')
 
+# [datetime global varibles]
+
+today = datetime.datetime.now()
+today_humandate = today.strftime("%Y-%m-%d")
+
+# [diary create or update view] if today_diary already exists, update diary
+
 def today_diary_create(request):
     if request.method == 'POST':
         diary_form = DiaryForm(request.POST)
@@ -19,10 +26,29 @@ def today_diary_create(request):
         diary_form = DiaryForm()
         return render(request, 'diary/diary_form.html', {'form': diary_form})
 
+def today_diary_update(request, diary_id):
+    today_diary_gotten = Diary.objects.get(id=diary_id)
+    if request.method == 'POST':
+        diary_form = DiaryForm(request.POST, instance=today_diary_gotten)
+        if diary_form.is_valid():
+            diary_form.save()
+            return redirect('today-diary', username=request.user.username)
+    else:
+        diary_form = DiaryForm(instance=today_diary_gotten)
+        return render(request, 'diary/diary_form.html', {'form': diary_form})
+
+def today_diary_write(request):
+    today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
+    if today_diary:
+        diary_id = today_diary[0].id
+        return today_diary_update(request, diary_id)
+    else:
+        return today_diary_create(request)
+
+# [diarylist view]
+
 def today_dairy(request, username):
-    today = datetime.datetime.now()
-    today_humandate = today.strftime("%Y-%m-%d")
-    today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate).order_by('-dt_created',)
+    today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
     if today_diary:
         today_diary=today_diary[0]
         context = {
