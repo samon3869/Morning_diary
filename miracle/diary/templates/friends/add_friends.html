@@ -19,11 +19,17 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-fluid col-md-6">
-				<p style="font-size: 15px;">내 수락을 기다리는 친구들<p>
+				<p style="font-size: 15px;">내 수락을 기다리는 친구들</p>
 				<p style="font-size: small;">파달 11.24.2021</p>
 			</div>
 			<div class="col-fluid col-md-6">
-				<p style="font-size: 15px;">내가 요청한 친구 신청<p>
+				<p style="font-size: 15px;">
+					<span>내가 요청한 친구 신청</span>
+					<button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+						친구신청
+					</button>
+					{% include 'friends/add_friends_modal.html' %}
+				</p>
 				<p style="font-size: small;">bbang2 11.24.2021</p>
 			</div>
 		</div>
