@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Diary, User
+from .models import Diary, FriendsApply, User
 # Register your models here.
 
 admin.site.register(Diary)
 admin.site.register(User, UserAdmin)
-UserAdmin.fieldsets += (("Custom fields", {"fields": ("nickname",)}),)
+admin.site.register(FriendsApply)
+UserAdmin.fieldsets += (("Custom fields", {"fields": ("nickname", "friends")}),)
