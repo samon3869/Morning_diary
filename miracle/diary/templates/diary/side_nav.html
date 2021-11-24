@@ -1,17 +1,18 @@
+{% load static %}
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link" aria-current="page" href="#">
               <span data-feather="home"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
             {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'today-diary' user.username %}">
+            <a id="nav-morning-diary" class="nav-link" href="{% url 'today-diary' user.username %}">
             {% else %}
-            <a class="nav-link" href="{% url 'index' %}">
+            <a id="nav-morning-diary" class="nav-link" href="{% url 'index' %}">
             {% endif %}
               <span data-feather="book"></span>
               My morning diary
@@ -25,9 +26,9 @@
           </li>
           <li class="nav-item">
           {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'friends' user.username %}">
+            <a id="nav-friends" class="nav-link" href="{% url 'friends' user.username %}">
             {% else %}
-            <a class="nav-link" href="{% url 'index' %}">
+            <a id="nav-friends" class="nav-link" href="{% url 'index' %}">
             {% endif %}
               <span data-feather="users"></span>
               Friends
@@ -81,3 +82,7 @@
         </ul>
       </div>
 </nav>
+
+{% block script %}
+  <script src={% static 'diary/script/side_nav.js' %}></script>
+{% endblock script %}
