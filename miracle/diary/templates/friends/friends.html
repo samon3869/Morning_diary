@@ -18,12 +18,13 @@
 	</div>
 	<div class="container">
 		<div class="row">
+		{% for friend in friend_list %}
 			<div class="col-md-6 col-xl-4">                       
 				<div class="card">
 					<div class="card-body">
 						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar6.png)" class="avatar avatar-xl mr-3"></span>
 							<div class="media-body overflow-hidden">
-								<h5 class="card-text mb-0">Nielsen Cobb</h5>
+								<h5 class="card-text mb-0">{{friend.nickname}}</h5>
 								<p class="card-text text-uppercase text-muted">Memora</p>
 								<p class="card-text">
 									
@@ -34,38 +35,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 col-xl-4">                       
-				<div class="card">
-					<div class="card-body">
-						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar7.png)" class="avatar avatar-xl mr-3"></span>
-							<div class="media-body overflow-hidden">
-								<h5 class="card-text mb-0">Margret Cote</h5>
-								<p class="card-text text-uppercase text-muted">Zilidium</p>
-								<p class="card-text">
-									
-									margretcote@zilidium.com<br><abbr title="Phone">P:  </abbr>+1 (893) 532-2218
-								</p>
-							</div>
-						</div><a href="#" class="tile-link"></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-xl-4">                       
-				<div class="card">
-					<div class="card-body">
-						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar8.png)" class="avatar avatar-xl mr-3"></span>
-							<div class="media-body overflow-hidden">
-								<h5 class="card-text mb-0">Rachel Vinson</h5>
-								<p class="card-text text-uppercase text-muted">Chorizon</p>
-								<p class="card-text">
-									
-									rachelvinson@chorizon.com<br><abbr title="Phone">P:  </abbr>+1 (891) 494-2060
-								</p>
-							</div>
-						</div><a href="#" class="tile-link"></a>
-					</div>
-				</div>
-			</div>
+		{% endfor %}
 		</div>
 	</div>
 		

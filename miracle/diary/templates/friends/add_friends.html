@@ -20,7 +20,9 @@
 		<div class="row">
 			<div class="col-fluid col-md-6">
 				<p style="font-size: 15px;">내 수락을 기다리는 친구들</p>
-				<p style="font-size: small;">파달 11.24.2021</p>
+				{% for list in be_applied_list %}
+				<p style="font-size: small;">{{list.user_from}}</p>
+				{% endfor %}
 			</div>
 			<div class="col-fluid col-md-6">
 				<p style="font-size: 15px;">
@@ -30,7 +32,9 @@
 					</button>
 					{% include 'friends/add_friends_modal.html' %}
 				</p>
-				<p style="font-size: small;">bbang2 11.24.2021</p>
+				{% for list in  applying_list %}
+				<p style="font-size: small;">{{list.user_to}}</p>
+				{% endfor %}
 			</div>
 		</div>
 	</div>

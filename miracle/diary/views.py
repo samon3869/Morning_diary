@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.views import PasswordChangeView
-from .models import Diary
+from .models import Diary, FriendsApply, User
 from .forms import DiaryForm
 
 def index(request):
@@ -71,10 +71,20 @@ def today_dairy(request, username):
 # [frends view]
 
 def friends(request, username):
-    return render(request, 'friends/friends.html')
+    friend_list = User.objects.get(username = username).friends.all()
+    context = {
+        "friend_list": friend_list
+    }
+    return render(request, 'friends/friends.html', context=context)
 
 def add_friends(request, username):
-    return render(request, 'friends/add_friends.html')
+    applying_list = FriendsApply.objects.filter(user_from=username).filter(ok_sign=0)
+    be_applied_list = FriendsApply.objects.filter(user_to=request.user.pk).filter(ok_sign=0)
+    context = {
+        "applying_list": applying_list,
+        "be_applied_list": be_applied_list
+    }
+    return render(request, 'friends/add_friends.html', context=context)
 
 class CustomPasswordChangeView(PasswordChangeView):
     def get_success_url(self):
