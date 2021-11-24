@@ -101,6 +101,16 @@ def add_friends(request, username):
             "be_applied_list": be_applied_list
         }
         return render(request, 'friends/add_friends.html', context=context)
+    
+def apply_friends(request, username):
+    if request.method == 'POST':
+        friend_name = request.POST['name']
+        friend = User.objects.get(username=friend_name)
+        FriendsApply.objects.create(
+            user_from=username,
+            user_to=friend,
+        )
+    return redirect('add-friends', username=request.user.username)
 
 class CustomPasswordChangeView(PasswordChangeView):
     def get_success_url(self):
