@@ -78,13 +78,29 @@ def friends(request, username):
     return render(request, 'friends/friends.html', context=context)
 
 def add_friends(request, username):
-    applying_list = FriendsApply.objects.filter(user_from=username).filter(ok_sign=0)
-    be_applied_list = FriendsApply.objects.filter(user_to=request.user.pk).filter(ok_sign=0)
-    context = {
-        "applying_list": applying_list,
-        "be_applied_list": be_applied_list
-    }
-    return render(request, 'friends/add_friends.html', context=context)
+    if request.method == 'POST':
+        confirm = request.POST['ok']
+        pk = request.POST['list_pk']
+        target = FriendsApply.objects.get(pk=pk)
+        if confirm == "positive":
+            friend = User.objects.get(username=target.user_from)
+            me = request.user
+            friend.friends.add(me)
+            me.friends.add(friend)
+            friend.save()
+            me.save()
+            target.delete()
+        elif confirm == "negative":
+            target.delete()
+        return redirect('add-friends', username=request.user.username)
+    else:
+        applying_list = FriendsApply.objects.filter(user_from=username).filter(ok_sign=0)
+        be_applied_list = FriendsApply.objects.filter(user_to=request.user.pk).filter(ok_sign=0)
+        context = {
+            "applying_list": applying_list,
+            "be_applied_list": be_applied_list
+        }
+        return render(request, 'friends/add_friends.html', context=context)
 
 class CustomPasswordChangeView(PasswordChangeView):
     def get_success_url(self):

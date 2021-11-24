@@ -21,7 +21,14 @@
 			<div class="col-fluid col-md-6">
 				<p style="font-size: 15px;">내 수락을 기다리는 친구들</p>
 				{% for list in be_applied_list %}
-				<p style="font-size: small;">{{list.user_from}}</p>
+				<p style="font-size: small;">
+					{{list.user_from}}
+					<form method='post'>{% csrf_token %}
+						<input type="hidden" id="user_name" name="list_pk" value={{list.pk}} />
+						<button name="ok" type="submit" class="btn btn-sm btn-success" value="positive">수락</button>
+						<button name="ok" type="submit" class="btn btn-sm btn-danger" value="negative">거절</button>
+					</form>
+				</p>
 				{% endfor %}
 			</div>
 			<div class="col-fluid col-md-6">
