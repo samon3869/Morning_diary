@@ -1,0 +1,73 @@
+{% extends 'diary/base.html' %}
+{% load static %}
+
+{% block css %}
+<link href={% static 'friends/css/friends.css' %} rel="stylesheet">
+{% endblock css %}
+
+{% block main_area %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="h2">{{ username }}'s Friends</h1>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<div class="btn-group me-2">
+				<button type="button" class="btn btn-sm btn-outline-secondary">친구목록</button>
+				<button type="button" class="btn btn-sm btn-outline-secondary">친구추가</button>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-xl-4">                       
+				<div class="card">
+					<div class="card-body">
+						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar6.png)" class="avatar avatar-xl mr-3"></span>
+							<div class="media-body overflow-hidden">
+								<h5 class="card-text mb-0">Nielsen Cobb</h5>
+								<p class="card-text text-uppercase text-muted">Memora</p>
+								<p class="card-text">
+									
+									nielsencobb@memora.com<br><abbr title="Phone">P:  </abbr>+1 (851) 552-2735
+								</p>
+							</div>
+						</div><a href="#" class="tile-link"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xl-4">                       
+				<div class="card">
+					<div class="card-body">
+						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar7.png)" class="avatar avatar-xl mr-3"></span>
+							<div class="media-body overflow-hidden">
+								<h5 class="card-text mb-0">Margret Cote</h5>
+								<p class="card-text text-uppercase text-muted">Zilidium</p>
+								<p class="card-text">
+									
+									margretcote@zilidium.com<br><abbr title="Phone">P:  </abbr>+1 (893) 532-2218
+								</p>
+							</div>
+						</div><a href="#" class="tile-link"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xl-4">                       
+				<div class="card">
+					<div class="card-body">
+						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar8.png)" class="avatar avatar-xl mr-3"></span>
+							<div class="media-body overflow-hidden">
+								<h5 class="card-text mb-0">Rachel Vinson</h5>
+								<p class="card-text text-uppercase text-muted">Chorizon</p>
+								<p class="card-text">
+									
+									rachelvinson@chorizon.com<br><abbr title="Phone">P:  </abbr>+1 (891) 494-2060
+								</p>
+							</div>
+						</div><a href="#" class="tile-link"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+</main>
+{% endblock main_area %}

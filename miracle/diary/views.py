@@ -68,6 +68,11 @@ def today_dairy(request, username):
     return render(request, 'diary/today_diary.html', context=context)
 
 
+# [frends view]
+
+def friends(request, username):
+    return render(request, 'friends/friends.html')
+
 class CustomPasswordChangeView(PasswordChangeView):
     def get_success_url(self):
         return reverse('index')
