@@ -73,6 +73,9 @@ def today_dairy(request, username):
 def friends(request, username):
     return render(request, 'friends/friends.html')
 
+def add_friends(request, username):
+    return render(request, 'friends/add_friends.html')
+
 class CustomPasswordChangeView(PasswordChangeView):
     def get_success_url(self):
         return reverse('index')
