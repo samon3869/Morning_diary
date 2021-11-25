@@ -100,7 +100,7 @@ class TodayDiary(LoginRequiredMixin, UserPassesTestMixin, View):
             today_diary=today_diary[0]
             context = {
                 "user_id": user_id,
-                "today_diary": today_diary,
+                "diary": today_diary,
                 "thanks_list": today_diary.thanks.split(", "),
                 "feelgood_list": today_diary.feelgood.split(", "),
                 "promise_list": today_diary.promise.split(", "),
@@ -123,7 +123,42 @@ class TodayDiary(LoginRequiredMixin, UserPassesTestMixin, View):
         be_freind = (user in target_friends)
         
         return be_me or be_freind
+    
+    
+# [see diary]
+class SeeDiary(LoginRequiredMixin, UserPassesTestMixin, View):
+    raise_exception = True
+    
+    def get(self, request, diary_id):
+        target_diary = Diary.objects.get(pk=diary_id)
+        context = {
+            "diary": target_diary,
+            "user": target_diary.author,
+            "user_id": target_diary.author.pk,
+            "target_diary": target_diary,
+            "thanks_list": target_diary.thanks.split(", "),
+            "feelgood_list": target_diary.feelgood.split(", "),
+            "promise_list": target_diary.promise.split(", "),
+            "donegood_list": target_diary.donegood.split(", "),
+            "makegood_list": target_diary.makegood.split(", ")
+        }
+
+            
+        return render(request, 'diary/today_diary.html', context=context)
+
+    def test_func(self, user):
+        diary_id = self.kwargs['diary_id']
+        # 타겟유저본인이거나
+        target_user_id = Diary.objects.get(pk=diary_id).author.pk
+        be_me = (target_user_id == user.pk)
+        # 타겟유저의친구거나
+        target_friends = list(User.objects.get(pk=target_user_id).friends.all())
+        be_freind = (user in target_friends)
         
+        return be_me or be_freind
+
+
+
 # [friends diarylist]
 
 class FriendsDiary(LoginRequiredMixin, DetailView):
@@ -142,6 +177,7 @@ class FriendsDiary(LoginRequiredMixin, DetailView):
             if today_diary:
                 today_diary=today_diary[0]
                 diary_data = {
+                    "diary_id": today_diary.pk,
                     "username": friend.username,
                     "today_diary": today_diary,
                     "thanks": today_diary.thanks.split(", ")[0],
