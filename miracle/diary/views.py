@@ -105,11 +105,14 @@ def add_friends(request, username):
 def apply_friends(request, username):
     if request.method == 'POST':
         friend_name = request.POST['name']
-        friend = User.objects.get(username=friend_name)
-        FriendsApply.objects.create(
-            user_from=username,
-            user_to=friend,
-        )
+        try:
+            friend = User.objects.get(username=friend_name)
+            FriendsApply.objects.create(
+                user_from=username,
+                user_to=friend,
+            )
+        except:
+            pass
     return redirect('add-friends', username=request.user.username)
 
 class CustomPasswordChangeView(PasswordChangeView):
