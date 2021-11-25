@@ -82,7 +82,7 @@ class FriendsDiary(DetailView):
         # 친구 리스트로부터 친구 글 링크랑, 친구 글 내용 일부 받아오기
         friend_diary_list = []
         for friend in friend_list:
-            today_diary = Diary.objects.filter(author=friend.pk)
+            today_diary = Diary.objects.filter(author=friend.pk).order_by('-dt_modified')
             if today_diary:
                 today_diary=today_diary[0]
                 diary_data = {
