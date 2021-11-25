@@ -2,7 +2,8 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic.edit import UpdateView
 from allauth.account.views import PasswordChangeView
 from .models import Diary, FriendsApply, User
 from .forms import DiaryForm
@@ -17,43 +18,64 @@ today_humandate = today.strftime("%Y-%m-%d")
 
 # [diary create or update view] if today_diary already exists, update diary
 
-def today_diary_create(request):
-    if request.method == 'POST':
-        diary_form = DiaryForm(request.POST)
-        diary_form.instance.author = request.user
-        diary_form.save()
-        return redirect('today-diary', username=request.user.username)
-    else:
-        diary_form = DiaryForm()
-        return render(request, 'diary/diary_form.html', {'form': diary_form})
+# def today_diary_create(request):
+#     if request.method == 'POST':
+#         diary_form = DiaryForm(request.POST)
+#         diary_form.instance.author = request.user
+#         diary_form.save()
+#         return redirect('today-diary', username=request.user.username)
+#     else:
+#         diary_form = DiaryForm()
+#         return render(request, 'diary/diary_form.html', {'form': diary_form})
+class TodayDiaryCreate(CreateView):
+    model = Diary
+    form_class = DiaryForm
+    template_name = 'diary/diary_form.html'
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('today-diary', kwargs={'user_id': self.object.author.pk})
 
-def today_diary_update(request, diary_id):
-    today_diary_gotten = Diary.objects.get(id=diary_id)
-    if request.method == 'POST':
-        diary_form = DiaryForm(request.POST, instance=today_diary_gotten)
-        if diary_form.is_valid():
-            diary_form.save()
-            return redirect('today-diary', username=request.user.username)
-    else:
-        diary_form = DiaryForm(instance=today_diary_gotten)
-        return render(request, 'diary/diary_form.html', {'form': diary_form})
+
+# def today_diary_update(request, diary_id):
+#     today_diary_gotten = Diary.objects.get(id=diary_id)
+#     if request.method == 'POST':
+#         diary_form = DiaryForm(request.POST, instance=today_diary_gotten)
+#         if diary_form.is_valid():
+#             diary_form.save()
+#             return redirect('today-diary', username=request.user.username)
+#     else:
+#         diary_form = DiaryForm(instance=today_diary_gotten)
+#         return render(request, 'diary/diary_form.html', {'form': diary_form})
+class TodayDiaryUpdate(UpdateView):
+    model = Diary
+    form_class = DiaryForm
+    template_name = 'diary/diary_form.html'
+    pk_url_kwarg = 'diary_id'
+    
+    def get_success_url(self):
+        return reverse('today-diary', kwargs={'user_id': self.object.author.pk})
+
 
 def today_diary_write(request):
     today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
     if today_diary:
         diary_id = today_diary[0].id
-        return today_diary_update(request, diary_id)
+        return redirect('diary-update', diary_id)
     else:
-        return today_diary_create(request)
+        return redirect('diary-create')
 
 # [diarylist view]
 
-def today_dairy(request, username):
+def today_dairy(request, user_id):
     today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
     if today_diary:
         today_diary=today_diary[0]
         context = {
-            "username": username,
+            "user_id": user_id,
             "today_diary": today_diary,
             "thanks_list": today_diary.thanks.split(", "),
             "feelgood_list": today_diary.feelgood.split(", "),
@@ -63,7 +85,7 @@ def today_dairy(request, username):
         }
     else:
         context = {
-            "username": username,
+            "user_id": user_id,
         }
 
     return render(request, 'diary/today_diary.html', context=context)

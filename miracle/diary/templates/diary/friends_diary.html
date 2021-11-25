@@ -11,9 +11,13 @@
 		<h1 class="h2">{{ user.nickname }}'s Friends</h1>
 		<div class="btn-toolbar mb-2 mb-md-0">
 			<div class="btn-group me-2">
-				<a href="{% url 'diary-create' %}"><button type="button" class="btn btn-sm btn-outline-secondary">글쓰기</button></a>
+				<a href="{% url 'diary-write' %}"><button type="button" class="btn btn-sm btn-outline-secondary">글쓰기</button></a>
 				<a href="{% url 'friends-diary' user.pk %}"><button type="button" class="btn btn-sm btn-outline-secondary">친구일기</button></a>
 			</div>
+			<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+				<span data-feather="calendar"></span>
+				This week
+			</button>
 		</div>
 	</div>
 	<div class="container">

@@ -10,7 +10,7 @@
           </li>
           <li class="nav-item">
             {% if user.is_authenticated %}
-            <a id="nav-morning-diary" class="nav-link" href="{% url 'today-diary' user.username %}">
+            <a id="nav-morning-diary" class="nav-link" href="{% url 'today-diary' user.pk %}">
             {% else %}
             <a id="nav-morning-diary" class="nav-link" href="{% url 'index' %}">
             {% endif %}
