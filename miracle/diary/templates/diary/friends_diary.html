@@ -1,0 +1,47 @@
+{% extends 'diary/base.html' %}
+{% load static %}
+
+{% block css %}
+<link href={% static 'friends/css/friends.css' %} rel="stylesheet">
+{% endblock css %}
+
+{% block main_area %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="h2">{{ user.nickname }}'s Friends</h1>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<div class="btn-group me-2">
+				<a href="{% url 'diary-create' %}"><button type="button" class="btn btn-sm btn-outline-secondary">글쓰기</button></a>
+				<a href="{% url 'friends-diary' user.pk %}"><button type="button" class="btn btn-sm btn-outline-secondary">친구일기</button></a>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+		{% for friend_diary in friend_diary_list %}
+			<div class="col-md-6 col-xl-4">
+				<div class="card">
+					<div class="card-body">
+						<div class="media align-items-center"><span style="background-image: url(https://bootdey.com/img/Content/avatar/avatar6.png)" class="avatar avatar-xl mr-3"></span>
+							<div class="media-body overflow-hidden">
+								<h5 class="card-text mb-0">{{friend_diary.username}}</h5>
+								<p class="card-text text-uppercase text-muted">{{friend_diary.dt_modified}}</p>
+								<p class="card-text">
+									{% if friend_diary.dt_modified != 0 %}
+									감사한일: <span>{{friend_diary.thanks}}</span><br>
+									잘한일: <span>{{friend_diary.donegood}}</span>
+									{% else %}
+									아직 쓴 일기가 없어요
+									{% endif %}
+								</p>
+							</div>
+						</div><a href="#" class="tile-link"></a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+		
+</main>
+{% endblock main_area %}

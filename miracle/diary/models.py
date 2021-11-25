@@ -21,11 +21,11 @@ class User(AbstractUser):
 
 class Diary(models.Model):
     # 감사일기3, 잘한일기3, 마지막 수정일
-    thanks = models.TextField()
-    feelgood = models.TextField()
-    promise = models.TextField()
-    donegood = models.TextField()
-    makegood = models.TextField()
+    thanks = models.TextField(blank=True, null=True)
+    feelgood = models.TextField(blank=True, null=True)
+    promise = models.TextField(blank=True, null=True)
+    donegood = models.TextField(blank=True, null=True)
+    makegood = models.TextField(blank=True, null=True)
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_modified = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

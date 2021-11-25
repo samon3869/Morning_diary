@@ -2,6 +2,7 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.generic import ListView, DetailView
 from allauth.account.views import PasswordChangeView
 from .models import Diary, FriendsApply, User
 from .forms import DiaryForm
@@ -66,6 +67,41 @@ def today_dairy(request, username):
         }
 
     return render(request, 'diary/today_diary.html', context=context)
+
+# [friends diarylist]
+
+class FriendsDiary(DetailView):
+    model = User
+    template_name = 'diary/friends_diary.html'
+    pk_url_kwarg = "pk"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_pk = self.kwargs.get("pk")
+        friend_list = User.objects.get(pk=user_pk).friends.all()
+        # 친구 리스트로부터 친구 글 링크랑, 친구 글 내용 일부 받아오기
+        friend_diary_list = []
+        for friend in friend_list:
+            today_diary = Diary.objects.filter(author=friend.pk)
+            if today_diary:
+                today_diary=today_diary[0]
+                diary_data = {
+                    "username": friend.username,
+                    "today_diary": today_diary,
+                    "thanks": today_diary.thanks.split(", ")[0],
+                    "donegood": today_diary.donegood.split(", ")[0],
+                    "dt_modified": today_diary.dt_modified
+                }
+                friend_diary_list.append(diary_data)
+            else:
+                diary_data = {
+                    "username": friend.username,
+                    "dt_modified": 0
+                }
+                friend_diary_list.append(diary_data)
+            friend_diary_list.sort(key=lambda x:x["dt_modified"], reverse=True)
+        context["friend_diary_list"] = friend_diary_list
+        return context
 
 
 # [frends view]
