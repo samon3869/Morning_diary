@@ -2,8 +2,10 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView
+from braces.views import LoginRequiredMixin
 from allauth.account.views import PasswordChangeView
 from .models import Diary, FriendsApply, User
 from .forms import DiaryForm
@@ -27,7 +29,7 @@ today_humandate = today.strftime("%Y-%m-%d")
 #     else:
 #         diary_form = DiaryForm()
 #         return render(request, 'diary/diary_form.html', {'form': diary_form})
-class TodayDiaryCreate(CreateView):
+class TodayDiaryCreate(LoginRequiredMixin, CreateView):
     model = Diary
     form_class = DiaryForm
     template_name = 'diary/diary_form.html'
@@ -50,7 +52,7 @@ class TodayDiaryCreate(CreateView):
 #     else:
 #         diary_form = DiaryForm(instance=today_diary_gotten)
 #         return render(request, 'diary/diary_form.html', {'form': diary_form})
-class TodayDiaryUpdate(UpdateView):
+class TodayDiaryUpdate(LoginRequiredMixin, UpdateView):
     model = Diary
     form_class = DiaryForm
     template_name = 'diary/diary_form.html'
@@ -70,29 +72,49 @@ def today_diary_write(request):
 
 # [diarylist view]
 
-def today_dairy(request, user_id):
-    today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
-    if today_diary:
-        today_diary=today_diary[0]
-        context = {
-            "user_id": user_id,
-            "today_diary": today_diary,
-            "thanks_list": today_diary.thanks.split(", "),
-            "feelgood_list": today_diary.feelgood.split(", "),
-            "promise_list": today_diary.promise.split(", "),
-            "donegood_list": today_diary.donegood.split(", "),
-            "makegood_list": today_diary.makegood.split(", ")
-        }
-    else:
-        context = {
-            "user_id": user_id,
-        }
+# def today_dairy(request, user_id):
+#     today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
+#     if today_diary:
+#         today_diary=today_diary[0]
+#         context = {
+#             "user_id": user_id,
+#             "today_diary": today_diary,
+#             "thanks_list": today_diary.thanks.split(", "),
+#             "feelgood_list": today_diary.feelgood.split(", "),
+#             "promise_list": today_diary.promise.split(", "),
+#             "donegood_list": today_diary.donegood.split(", "),
+#             "makegood_list": today_diary.makegood.split(", ")
+#         }
+#     else:
+#         context = {
+#             "user_id": user_id,
+#         }
 
-    return render(request, 'diary/today_diary.html', context=context)
+#     return render(request, 'diary/today_diary.html', context=context)
+class TodayDiary(LoginRequiredMixin, View):
+    def get(self, request, user_id):
+        today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
+        if today_diary:
+            today_diary=today_diary[0]
+            context = {
+                "user_id": user_id,
+                "today_diary": today_diary,
+                "thanks_list": today_diary.thanks.split(", "),
+                "feelgood_list": today_diary.feelgood.split(", "),
+                "promise_list": today_diary.promise.split(", "),
+                "donegood_list": today_diary.donegood.split(", "),
+                "makegood_list": today_diary.makegood.split(", ")
+            }
+        else:
+            context = {
+                "user_id": user_id,
+            }
+            
+        return render(request, 'diary/today_diary.html', context=context)
 
 # [friends diarylist]
 
-class FriendsDiary(DetailView):
+class FriendsDiary(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'diary/friends_diary.html'
     pk_url_kwarg = "pk"
