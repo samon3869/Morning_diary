@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, UserPassesTestMixin
 from allauth.account.views import PasswordChangeView
 from .models import Diary, FriendsApply, User
 from .forms import DiaryForm
@@ -91,7 +91,9 @@ def today_diary_write(request):
 #         }
 
 #     return render(request, 'diary/today_diary.html', context=context)
-class TodayDiary(LoginRequiredMixin, View):
+class TodayDiary(LoginRequiredMixin, UserPassesTestMixin, View):
+    raise_exception = True
+    
     def get(self, request, user_id):
         today_diary = Diary.objects.filter(author = request.user).filter(dt_created__date=today_humandate)
         if today_diary:
@@ -112,6 +114,16 @@ class TodayDiary(LoginRequiredMixin, View):
             
         return render(request, 'diary/today_diary.html', context=context)
 
+    def test_func(self, user):
+        target_user_id = self.kwargs['user_id']
+        # 타겟유저본인이거나
+        be_me = (target_user_id == user.pk)
+        # 타겟유저의친구거나
+        target_friends = list(User.objects.get(pk=target_user_id).friends.all())
+        be_freind = (user in target_friends)
+        
+        return be_me or be_freind
+        
 # [friends diarylist]
 
 class FriendsDiary(LoginRequiredMixin, DetailView):
