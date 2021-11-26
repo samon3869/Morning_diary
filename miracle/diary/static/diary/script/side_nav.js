@@ -9,3 +9,8 @@ if (category === "friends") {
 	const item = document.querySelector('#nav-friends');
 	item.classList.add('active');
 }
+
+if (category === "ubno_study") {
+	const item = document.querySelector('#nav-ubno-study');
+	item.classList.add('active');
+}

@@ -1,1 +1,30 @@
-성공적으로 연결하였습니다
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+{% endblock css %}
+
+{% block main_area %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="h2">{{ username }}'s Friends</h1>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<div class="btn-group me-2">
+				<a href="{% url 'friends' user.username %}"><button type="button" class="btn btn-sm btn-outline-secondary">기록쓰기</button></a>
+				<a href="{% url 'add-friends' user.username %}"><button type="button" class="btn btn-sm btn-outline-secondary">친구기록</button></a>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-fulid col-md-6">
+			블록1
+			</div>
+			<div class="col-fulid col-md-6">
+			블록2
+			</div>
+		</div>
+	</div>
+		
+</main>
+{% endblock main_area %}
