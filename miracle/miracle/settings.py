@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'diary',
+    'ubno_study',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

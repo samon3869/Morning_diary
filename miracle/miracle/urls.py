@@ -35,4 +35,6 @@ urlpatterns = [
         TemplateView.as_view(template_name='diary/email_confirmation_done.html'),
         name="account_email_confirmation_done",
     ),
+    # UBNO_study
+    path('ubno_study/', include('ubno_study.urls')),
 ]
