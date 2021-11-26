@@ -9,8 +9,17 @@ class MyStudyTime(View):
         module_dir = os.path.dirname(__file__) 
         file_path = os.path.join(module_dir, 'static', 'ubno_study', 'dummydata', 'study_time_table.csv')
         df = pd.read_csv(file_path)
-        df_for_html = df.to_html()
+        # labels, data 넘겨주기
+        labels = list(df['dt_created'])
+        author = df['author'].unique()
+        datasets = [{
+            # labels: 사람
+            "author": author[0],
+            # data: 공부시간데이터
+            "data": list(df.loc[df['author'] == author[0], 'minutes'])
+        }]
         context = {
-            'df': df_for_html,
+            "labels": labels,
+            "datasets": datasets
         }
         return render(request, 'ubno_study/my_study_time.html', context=context)
