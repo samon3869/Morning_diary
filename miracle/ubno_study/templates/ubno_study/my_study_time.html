@@ -36,10 +36,7 @@ const labels = {{ labels|safe }};
 const datasets = {{ datasets|safe }};
 const data = {
 	labels: labels,
-	datasets: [{
-		label: datasets[0].author,
-		data: datasets[0].data
-	}]
+	datasets: datasets
 };
 
 const config = {
