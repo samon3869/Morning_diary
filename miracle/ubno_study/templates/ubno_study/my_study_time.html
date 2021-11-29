@@ -21,7 +21,10 @@
         <canvas id="myChart" width="400" height="400"></canvas>
 			</div>
 			<div class="col-6">
-        {{ df|safe }}
+				<form method="get">{% csrf_token %}
+					<input type="hidden" name="day">
+					<button type="submit" class="btn btn-sm btn-outline-secondary">이번주</button>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -49,5 +52,10 @@ const myChart = new Chart(
 	document.getElementById('myChart'),
 	config
 );
+</script>
+<script>
+	const thisWeekBtn = document.querySelector("input[name='day']");
+	const today = "{{today|safe}}";
+	thisWeekBtn.setAttribute('value', today);
 </script>
 {% endblock script %}

@@ -10,7 +10,7 @@ def add_days(source_date, count):
 def date_range(start, end):
     start = datetime.datetime(start.year, start.month, start.day)
     end = datetime.datetime(end.year, end.month, end.day)
-    dates = [date for date in pd.date_range(start, periods=(end-start).days+1)]
+    dates = [date.strftime("%m/%d/%Y") for date in pd.date_range(start, periods=(end-start).days+1)]
     return dates
 
 # week function
